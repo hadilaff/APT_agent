@@ -1,0 +1,19 @@
+# Environment variables - never commit these
+.env
+.env.local
+.env*.local
+
+# Python virtual environment
+aptenv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Next.js
+frontend/.next/
+frontend/node_modules/
+
+# OS
+.DS_Store
