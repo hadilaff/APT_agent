@@ -227,7 +227,19 @@ def make_disclaimer(user_message):
     )
 
 
-async def ask_agent(user_message: str, weather_data: dict) -> str:
+async def ask_agent(user_message: str, weather_data: dict | None) -> str:
+    if weather_data is None:
+        # Small talk — no weather needed
+        response = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": user_message},
+            ],
+            temperature=0.2,
+        )
+        return (response.choices[0].message.content or "").strip()
+
     target = requested_datetime(user_message)
 
     if target is None:
