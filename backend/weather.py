@@ -1,10 +1,19 @@
 import httpx
+import time
 
 LATITUDE = 36.84
 LONGITUDE = 10.25
 
+_cache = {"data": None, "timestamp": 0}
+CACHE_TTL = 600  # 10 minutes
+
 
 async def get_weather():
+    now = time.time()
+
+    if _cache["data"] is not None and now - _cache["timestamp"] < CACHE_TTL:
+        return _cache["data"]
+
     url = "https://api.open-meteo.com/v1/forecast"
 
     params = {
@@ -24,7 +33,10 @@ async def get_weather():
     }
 
     async with httpx.AsyncClient() as client:
-        response = await client.get(url, params=params)
+        response = await client.get(url, params=params, timeout=10)
         response.raise_for_status()
-        return response.json()
-        
+        data = response.json()
+
+    _cache["data"] = data
+    _cache["timestamp"] = now
+    return data
