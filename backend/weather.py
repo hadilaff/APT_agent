@@ -34,7 +34,12 @@ async def get_weather():
 
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(url, params=params, timeout=10)
+            response = await client.get(
+                url,
+                params=params,
+                timeout=10,
+                headers={"User-Agent": "APT-Agent/1.0 (rowing weather assistant)"},
+            )
             response.raise_for_status()
             data = response.json()
 
