@@ -233,13 +233,12 @@ async def ask_agent(user_message: str, weather_data: dict) -> str:
     if target is None:
         # No specific hour: provide the current local hour's forecast.
         now = datetime.now(TIMEZONE)
-        target_datetime = now.replace(
+        target = now.replace(
             hour=DEFAULT_TRAINING_HOUR,
             minute=0,
             second=0,
             microsecond=0,
-            )
-        #target = now.replace(minute=0, second=0, microsecond=0)
+        )
 
     selected_weather = select_hourly_weather(weather_data, target)
 
