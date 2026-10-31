@@ -30,14 +30,15 @@ async def root():
 
 @app.post("/chat")
 async def chat(request: ChatRequest):
+    try:
+        weather = await get_weather()
+    except Exception:
+        return {
+            "answer": (
+                "⚠️ I'm unable to fetch the weather forecast right now. "
+                "Please try again in a few minutes."
+            )
+        }
 
-    weather = await get_weather()
-
-    answer = await ask_agent(
-        request.message,
-        weather
-    )
-
-    return {
-        "answer": answer
-    }
+    answer = await ask_agent(request.message, weather)
+    return {"answer": answer}

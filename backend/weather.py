@@ -32,11 +32,18 @@ async def get_weather():
         "forecast_days": 2,
     }
 
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, params=params, timeout=10)
-        response.raise_for_status()
-        data = response.json()
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
 
-    _cache["data"] = data
-    _cache["timestamp"] = now
-    return data
+        _cache["data"] = data
+        _cache["timestamp"] = now
+        return data
+
+    except httpx.HTTPStatusError as e:
+        if e.response.status_code == 429 and _cache["data"] is not None:
+            # Return stale cache rather than crashing
+            return _cache["data"]
+        raise
