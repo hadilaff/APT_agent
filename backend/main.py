@@ -23,7 +23,16 @@ class ChatRequest(BaseModel):
     message: str
 
 
-@app.get("/")
+@app.get("/debug")
+async def debug():
+    try:
+        from agent import ask_agent
+        result = await ask_agent("hi", weather_data=None)
+        return {"status": "ok", "result": result}
+    except Exception as e:
+        return {"status": "error", "error": str(e), "type": type(e).__name__}
+
+
 async def root():
     return {"message": "APT Agent is running"}
 
