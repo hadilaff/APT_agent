@@ -231,7 +231,7 @@ async def ask_agent(user_message: str, weather_data: dict | None) -> str:
     if weather_data is None:
         # Small talk — no weather needed
         response = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="openai/gpt-oss-20b",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_message},
@@ -276,7 +276,7 @@ uncertainty and do not guarantee that rowing is safe.
 """
 
     response = client.chat.completions.create(
-        model="llama3-70b-8192",
+        model="openai/gpt-oss-20b",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": prompt},
