@@ -265,7 +265,7 @@ uncertainty and do not guarantee that rowing is safe.
 """
 
     response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
+        model="llama3-70b-8192",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": prompt},
