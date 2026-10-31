@@ -33,6 +33,17 @@ async def debug():
         return {"status": "error", "error": str(e), "type": type(e).__name__}
 
 
+@app.get("/debug-weather")
+async def debug_weather():
+    try:
+        data = await get_weather()
+        times = data.get("hourly", {}).get("time", [])
+        return {"status": "ok", "hours_available": len(times), "first": times[0] if times else None, "last": times[-1] if times else None}
+    except Exception as e:
+        return {"status": "error", "error": str(e), "type": type(e).__name__}
+
+
+@app.get("/")
 async def root():
     return {"message": "APT Agent is running"}
 
