@@ -48,6 +48,12 @@ async def root():
     return {"message": "APT Agent is running"}
 
 
+CLUB_KEYWORDS = (
+    "coach", "riadh", "entraîneur", "entraineur", "horaire", "schedule",
+    "heure", "timing", "indoor", "outdoor", "salle", "17h", "17:00",
+    "apt", "association", "ligue", "championnat", "saison", "season",
+)
+
 WEATHER_KEYWORDS = (
     "row", "rowing", "ramer", "aviron", "weather", "météo", "meteo",
     "wind", "vent", "rain", "pluie", "forecast", "prévision", "prevision",
@@ -59,6 +65,9 @@ WEATHER_KEYWORDS = (
 
 def needs_weather(message: str) -> bool:
     text = message.lower()
+    # Club info questions don't need weather
+    if any(keyword in text for keyword in CLUB_KEYWORDS):
+        return False
     return any(keyword in text for keyword in WEATHER_KEYWORDS)
 
 
