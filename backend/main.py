@@ -49,9 +49,13 @@ async def root():
 
 
 CLUB_KEYWORDS = (
-    "coach", "riadh", "entraîneur", "entraineur", "horaire", "schedule",
-    "heure", "timing", "indoor", "outdoor", "salle", "17h", "17:00",
+    "coach", "riadh", "entraîneur", "entraineur",
     "apt", "association", "ligue", "championnat", "saison", "season",
+)
+
+SCHEDULE_KEYWORDS = (
+    "horaire", "schedule", "heure d'entrainement", "heure de la seance",
+    "heure de la séance", "quand est", "à quelle heure",
 )
 
 WEATHER_KEYWORDS = (
@@ -60,13 +64,17 @@ WEATHER_KEYWORDS = (
     "today", "tomorrow", "aujourd", "demain", "conditions", "session",
     "gust", "rafale", "wave", "température", "temperature", "knot", "km/h",
     "can i", "est-ce", "puis-je", "peux-je", "lac", "lake", "tunis",
+    "17h", "17:00", "indoor", "outdoor", "salle",
 )
 
 
 def needs_weather(message: str) -> bool:
     text = message.lower()
-    # Club info questions don't need weather
-    if any(keyword in text for keyword in CLUB_KEYWORDS):
+    # Pure club info (coach, leagues) — no weather needed
+    if any(keyword in text for keyword in CLUB_KEYWORDS) and not any(keyword in text for keyword in WEATHER_KEYWORDS):
+        return False
+    # Pure schedule question — no weather needed
+    if any(keyword in text for keyword in SCHEDULE_KEYWORDS) and not any(keyword in text for keyword in WEATHER_KEYWORDS):
         return False
     return any(keyword in text for keyword in WEATHER_KEYWORDS)
 
