@@ -6,7 +6,7 @@ import os
 logger = logging.getLogger(__name__)
 
 _cache = {"data": None, "timestamp": 0}
-CACHE_TTL = 600  # 10 minutes
+CACHE_TTL = 1800  # 30 minutes (Open-Meteo updates hourly, no need to fetch more often)
 
 # Vercel frontend proxies the weather request (avoids Open-Meteo rate limits on Render IPs)
 WEATHER_PROXY_URL = os.environ.get(
