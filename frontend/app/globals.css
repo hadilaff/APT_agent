@@ -35,6 +35,10 @@ body::before {
   z-index: -1;
 }
 
+.hero-mobile-image {
+  display: none;
+}
+
 button,
 input {
   font: inherit;
@@ -447,5 +451,20 @@ button:disabled {
     position: sticky;
     bottom: 8px;
     background: #f8fafb;
+  }
+
+  .weather-icon,
+  .hero-description,
+  .feature-list {
+    display: none;
+  }
+
+  .hero-mobile-image {
+    display: block;
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-top: 4px;
   }
 }
