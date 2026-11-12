@@ -413,112 +413,39 @@ button:disabled {
     border: none;
     border-radius: 0;
     box-shadow: none;
-    background: transparent;
-  }
-
-  /* All white sections become transparent on mobile */
-  .hero,
-  .conversation,
-  .suggestion-section {
-    background: transparent;
-  }
-
-  /* Text becomes white to be readable over the image */
-  .header h1,
-  .hero h2 {
-    color: #ffffff;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  }
-
-  .header p,
-  .hero-description,
-  .eyebrow,
-  .section-label {
-    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
   .header {
     padding-bottom: 18px;
-    border-bottom-color: rgba(255, 255, 255, 0.25);
   }
 
   .status {
     padding: 8px;
     font-size: 10px;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff;
   }
 
-  .status-dot {
-    background: #7effa0;
-  }
-
-  .weather-icon {
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  .feature-list span {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff;
-  }
-
-  .conversation {
-    border-top-color: rgba(255, 255, 255, 0.25);
-  }
-
-  .assistant .message-bubble {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #ffffff;
-  }
-
-  .user .message-bubble {
-    background: rgba(23, 107, 135, 0.85);
+  .hero {
+    padding: 28px 0 24px;
   }
 
   .message-bubble {
     max-width: 92%;
   }
 
-  .suggestion-button {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-
-  .suggestion-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
   .suggestions {
     flex-direction: column;
+  }
+
+  .suggestion-button {
+    width: 100%;
   }
 
   .composer {
     position: sticky;
     bottom: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.35);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .composer input {
-    color: #ffffff;
-  }
-
-  .composer input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .footer p,
-  .footer span {
-    color: rgba(255, 255, 255, 0.55);
+    background: #f8fafb;
   }
 }
