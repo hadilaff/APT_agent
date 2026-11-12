@@ -16,31 +16,23 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
+html {
   min-height: 100%;
 }
 
 body {
-  background: url("/image.jpeg?v=1") center center / cover no-repeat fixed;
-  color: var(--text);
-  font-family: "DM Sans", sans-serif;
+  margin: 0;
+  min-height: 100%;
+  position: relative;
 }
 
-/* Mobile: replace image with animated gradient background */
-@media (max-width: 768px) {
-  body {
-    background: linear-gradient(160deg, #0a3d62 0%, #1e6fa5 40%, #176b87 70%, #0e4d6b 100%);
-    background-size: 300% 300%;
-    animation: gradientShift 8s ease infinite;
-  }
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Background image via pseudo-element — works on both desktop and mobile */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/image.jpeg?v=1") center center / cover no-repeat;
+  z-index: -1;
 }
 
 button,
@@ -421,102 +413,39 @@ button:disabled {
     border: none;
     border-radius: 0;
     box-shadow: none;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
-  /* Make text readable on dark background */
-  .header h1,
-  .hero h2 {
-    color: #ffffff;
-  }
-
-  .header p,
-  .hero-description,
-  .eyebrow,
-  .section-label {
-    color: rgba(255, 255, 255, 0.75);
+  .header {
+    padding-bottom: 18px;
   }
 
   .status {
     padding: 8px;
     font-size: 10px;
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #a8f0c6;
-  }
-
-  .feature-list span {
-    border-color: rgba(255, 255, 255, 0.25);
-    color: rgba(255, 255, 255, 0.85);
-    background: rgba(255, 255, 255, 0.1);
   }
 
   .hero {
     padding: 28px 0 24px;
   }
 
-  .weather-icon {
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  .conversation {
-    border-top-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .assistant .message-bubble {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-  }
-
-  .suggestion-section {
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-  }
-
-  .suggestion-button {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    width: 100%;
-  }
-
-  .suggestion-button:hover {
-    background: rgba(255, 255, 255, 0.25);
+  .message-bubble {
+    max-width: 92%;
   }
 
   .suggestions {
     flex-direction: column;
   }
 
+  .suggestion-button {
+    width: 100%;
+  }
+
   .composer {
     position: sticky;
     bottom: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .composer input {
-    color: #ffffff;
-  }
-
-  .composer input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .footer p,
-  .footer span {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .message-bubble {
-    max-width: 92%;
-  }
-
-  .header {
-    padding-bottom: 18px;
-    border-bottom-color: rgba(255, 255, 255, 0.2);
+    background: #f8fafb;
   }
 }
