@@ -35,27 +35,8 @@ body::before {
   z-index: -1;
 }
 
-/* Mobile hero image — hidden on desktop */
-.hero-mobile-image {
-  display: none;
-}
-
-@media (max-width: 600px) {
-  .hero-mobile-image {
-    display: block;
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
-    border-radius: 16px;
-    margin-top: 8px;
-  }
-
-  .weather-icon,
-  .hero-description,
-  .feature-list {
-    display: none;
-  }
-}
+button,
+input {
   font: inherit;
 }
 
