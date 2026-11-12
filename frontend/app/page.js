@@ -123,6 +123,13 @@ export default function Home() {
             <span>🌡️ Temperature</span>
             <span>🌧️ Rain forecast</span>
           </div>
+
+          {/* Mobile only: show the image instead */}
+          <img
+            src="/image.jpeg"
+            alt="Lac de Tunis rowing"
+            className="hero-mobile-image"
+          />
         </section>
 
         <section className="conversation" aria-live="polite">
