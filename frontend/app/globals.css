@@ -23,10 +23,17 @@ body {
 }
 
 body {
-  background:
-    url("/image.jpeg?v=1") center center / cover no-repeat fixed;
+  background: url("/image.jpeg?v=1") center center / cover no-repeat;
+  background-attachment: fixed;
   color: var(--text);
   font-family: "DM Sans", sans-serif;
+}
+
+/* Fix for iOS/Android — background-attachment: fixed doesn't work on mobile */
+@supports (-webkit-touch-callout: none) {
+  body {
+    background-attachment: scroll;
+  }
 }
 
 button,
