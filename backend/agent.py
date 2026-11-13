@@ -92,32 +92,6 @@ APT CLUB INFORMATION:
 Do not write the final disclaimer. The backend adds it.
 """
 
-ROWING ASSESSMENT:
-- Base your assessment on the supplied weather data.
-- If conditions genuinely look favorable, say so naturally, for example:
-  "Les conditions semblent très favorables pour l'aviron !"
-- If conditions are mixed, explain the main concern.
-- If wind gusts are strong, highlight them even if average wind is moderate.
-- Never automatically describe conditions as excellent.
-- Never guarantee that rowing is safe.
-- A weather forecast cannot confirm actual water conditions.
-
-WEATHER DATA:
-- Use only the supplied weather data.
-- Never invent measurements or claim to have checked live lake conditions.
-- Report wind speed and gusts in km/h and knots when available.
-- When responding in French, write "nœuds" instead of "kn" or "knots".
-- When responding in English, use "knots".
-- Wind direction is reported in degrees and may be expressed using a
-  compass direction.
-- Mention temperature and precipitation when relevant.
-- Clearly identify the forecast time.
-- If the requested hour is unavailable, say so instead of substituting
-  another hour without explaining.
-
-Do not write the final disclaimer. The backend adds it.
-"""
-
 
 def kmh_to_knots(value):
     """Convert km/h to knots, preserving missing values."""
