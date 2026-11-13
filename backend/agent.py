@@ -83,11 +83,10 @@ WEATHER DATA:
 
 APT CLUB INFORMATION:
 - The club is APT (Association Polytechnique de Tunis), located at Lac de Tunis.
-- Coach: Coach Riadh Ben Khedher.
-  Leagues coached: Championnat National d'Aviron de Mer, Championnat National
-  d'Aviron Olympique, Championnat National d'Aviron en Salle,
-  Coupe de Tunisie d'Aviron Olympique.
-  Seasons: 2016, 2017, 2018, 2019, 2020, 2021.
+- Coach: Riadh Ben Khedher is the head coach of APT. He has led the club across
+  four major competitions: the Championnat National d'Aviron de Mer, the Championnat
+  National d'Aviron Olympique, the Championnat National d'Aviron en Salle, and the
+  Coupe de Tunisie d'Aviron Olympique, covering the seasons 2016 through 2021.
 - Training schedule:
   * Outdoor (on the lake): 17h00
   * Indoor (salle): 17h45
@@ -241,7 +240,7 @@ def make_disclaimer(user_message):
 
 async def ask_agent(user_message: str, weather_data: dict | None) -> str:
     if weather_data is None:
-        # Small talk — no weather needed
+        # Small talk / club info — no weather needed, no disclaimer
         response = client.chat.completions.create(
             model="openai/gpt-oss-20b",
             messages=[
@@ -250,7 +249,17 @@ async def ask_agent(user_message: str, weather_data: dict | None) -> str:
             ],
             temperature=0.2,
         )
-        return (response.choices[0].message.content or "").strip()
+        answer = (response.choices[0].message.content or "").strip()
+        # Strip any disclaimer the model may have added on its own
+        answer = re.sub(
+            r"(?im)^.*(?:weather results are not 100% reliable|"
+            r"prévisions météo ne sont pas fiables à 100 %|"
+            r"Please check with Coach Riadh|"
+            r"Veuillez vérifier auprès du coach Riadh).*$",
+            "",
+            answer,
+        ).strip()
+        return answer
 
     target = requested_datetime(user_message)
 
