@@ -83,10 +83,10 @@ WEATHER DATA:
 
 APT CLUB INFORMATION:
 - The club is APT (Association Polytechnique de Tunis), located at Lac de Tunis.
-- Coach: Riadh Ben Khedher is the head coach of APT. He has led the club across
-  four major competitions: the Championnat National d'Aviron de Mer, the Championnat
+- Coach: Riadh Ben Khedher is the head coach of APT. As a rower, he competed in
+  four major championships: the Championnat National d'Aviron de Mer, the Championnat
   National d'Aviron Olympique, the Championnat National d'Aviron en Salle, and the
-  Coupe de Tunisie d'Aviron Olympique, covering the seasons 2016 through 2021.
+  Coupe de Tunisie d'Aviron Olympique, during the seasons 2016 through 2021.
 - Training schedule:
   * Outdoor (on the lake): 17h00
   * Indoor (salle): 17h45
