@@ -230,7 +230,7 @@ def make_disclaimer(user_message):
         return (
             "⚠️ Ces prévisions météo ne sont pas fiables à 100 %. "
             "La météo peut changer à tout moment. "
-            "Veuillez vérifier auprès du coach Riadh avant d'aller ramer."
+            "Veuillez vérifier auprès du Coach Riadh"
         )
 
     return (
