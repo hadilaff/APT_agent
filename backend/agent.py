@@ -179,14 +179,27 @@ def requested_datetime(message):
 
 
 def select_hourly_weather(weather_data, target_datetime):
-    """Select the closest exact forecast hour and add knot conversions."""
+    """Select the closest forecast hour and add knot conversions."""
     hourly = weather_data.get("hourly", {})
     times = hourly.get("time", [])
 
+    if not times:
+        return None
+
     target_string = target_datetime.strftime("%Y-%m-%dT%H:00")
 
-    if target_string not in times:
-        return None
+    # Try exact match first
+    if target_string in times:
+        index = times.index(target_string)
+    else:
+        # Fall back to closest available hour
+        from datetime import datetime as dt
+        target_ts = target_datetime.timestamp()
+        closest = min(
+            range(len(times)),
+            key=lambda i: abs(dt.fromisoformat(times[i]).replace(tzinfo=TIMEZONE).timestamp() - target_ts)
+        )
+        index = closest
 
     index = times.index(target_string)
 
