@@ -188,20 +188,16 @@ def select_hourly_weather(weather_data, target_datetime):
 
     target_string = target_datetime.strftime("%Y-%m-%dT%H:00")
 
-    # Try exact match first
+    # Try exact match first, fall back to closest available hour
     if target_string in times:
         index = times.index(target_string)
     else:
-        # Fall back to closest available hour
         from datetime import datetime as dt
         target_ts = target_datetime.timestamp()
-        closest = min(
+        index = min(
             range(len(times)),
             key=lambda i: abs(dt.fromisoformat(times[i]).replace(tzinfo=TIMEZONE).timestamp() - target_ts)
         )
-        index = closest
-
-    index = times.index(target_string)
 
     def value_for(key):
         values = hourly.get(key, [])
