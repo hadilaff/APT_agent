@@ -303,6 +303,7 @@ User question:
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
 Then end with a clear YES or NO verdict in one short paragraph. Be direct and honest.
+Never mention threshold numbers (like 20 km/h, 30 km/h) as reference points — just describe the actual values and whether they feel safe for rowing.
 """
 
     response = client.chat.completions.create(
