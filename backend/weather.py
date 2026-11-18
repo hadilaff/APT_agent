@@ -1,49 +1,59 @@
 import httpx
 import time
 import logging
-import os
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 logger = logging.getLogger(__name__)
 
+TIMEZONE = ZoneInfo("Africa/Tunis")
 _cache = {"data": None, "timestamp": 0}
 CACHE_TTL = 600  # 10 minutes
 
-# Vercel frontend proxies the weather request (avoids Open-Meteo rate limits on Render IPs)
-WEATHER_PROXY_URL = os.environ.get(
-    "WEATHER_PROXY_URL",
-    "https://apt-agent.vercel.app/api/weather",
-)
-
-# Direct Open-Meteo as fallback
-OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
-
-PARAMS = {
-    "latitude": 36.84,
-    "longitude": 10.25,
-    "hourly": (
-        "temperature_2m,"
-        "wind_speed_10m,"
-        "wind_gusts_10m,"
-        "wind_direction_10m,"
-        "precipitation_probability,"
-        "precipitation,"
-        "weather_code"
-    ),
-    "timezone": "Africa/Tunis",
-    "forecast_days": 3,
-}
+# wttr.in has no rate limits and works from any IP
+WTTR_URL = "https://wttr.in/36.84,10.25?format=j1"
 
 
-async def _fetch(url: str, params: dict) -> dict:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            url,
-            params=params,
-            timeout=15,
-            headers={"User-Agent": "APT-Agent/1.0"},
-        )
-        response.raise_for_status()
-        return response.json()
+def _parse_wttr(raw: dict) -> dict:
+    """Convert wttr.in JSON into the same hourly format the agent expects."""
+    hourly_times = []
+    hourly_temp = []
+    hourly_wind = []
+    hourly_gusts = []
+    hourly_dir = []
+    hourly_precip_prob = []
+    hourly_precip = []
+    hourly_code = []
+
+    for day in raw.get("weather", []):
+        date_str = day["date"]  # e.g. "2026-11-18"
+        for h in day.get("hourly", []):
+            # wttr.in time is "0", "300", "600" ... "2100" (minutes from midnight)
+            minutes = int(h["time"])
+            hour = minutes // 100
+            dt_str = f"{date_str}T{hour:02d}:00"
+            hourly_times.append(dt_str)
+            hourly_temp.append(float(h["tempC"]))
+            hourly_wind.append(float(h["windspeedKmph"]))
+            hourly_gusts.append(float(h["WindGustKmph"]))
+            hourly_dir.append(float(h["winddirDegree"]))
+            hourly_precip_prob.append(float(h["chanceofrain"]))
+            hourly_precip.append(float(h["precipMM"]))
+            hourly_code.append(int(h["weatherCode"]))
+
+    return {
+        "timezone": "Africa/Tunis",
+        "hourly": {
+            "time": hourly_times,
+            "temperature_2m": hourly_temp,
+            "wind_speed_10m": hourly_wind,
+            "wind_gusts_10m": hourly_gusts,
+            "wind_direction_10m": hourly_dir,
+            "precipitation_probability": hourly_precip_prob,
+            "precipitation": hourly_precip,
+            "weather_code": hourly_code,
+        },
+    }
 
 
 async def get_weather():
@@ -52,32 +62,25 @@ async def get_weather():
     if _cache["data"] is not None and now - _cache["timestamp"] < CACHE_TTL:
         return _cache["data"]
 
-    # Try Vercel proxy first, then fall back to direct Open-Meteo
-    sources = [
-        (WEATHER_PROXY_URL, {}),        # Vercel proxy (no params needed, baked in)
-        (OPEN_METEO_URL, PARAMS),        # Direct fallback
-    ]
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                WTTR_URL,
+                timeout=15,
+                headers={"User-Agent": "APT-Agent/1.0 (rowing assistant Lac de Tunis)"},
+            )
+            response.raise_for_status()
+            raw = response.json()
 
-    last_error = None
-    for url, params in sources:
-        try:
-            data = await _fetch(url, params)
-            _cache["data"] = data
-            _cache["timestamp"] = now
-            logger.info(f"Weather fetched from {url}")
-            return data
-        except httpx.HTTPStatusError as e:
-            last_error = e
-            logger.warning(f"Weather fetch failed from {url}: HTTP {e.response.status_code}")
-            if e.response.status_code == 429 and _cache["data"] is not None:
-                return _cache["data"]
-        except Exception as e:
-            last_error = e
-            logger.warning(f"Weather fetch error from {url}: {e}")
+        data = _parse_wttr(raw)
+        _cache["data"] = data
+        _cache["timestamp"] = now
+        logger.info("Weather fetched from wttr.in")
+        return data
 
-    # Last resort: return stale cache
-    if _cache["data"] is not None:
-        logger.info("Returning stale cache as last resort")
-        return _cache["data"]
-
-    raise last_error
+    except Exception as e:
+        logger.warning(f"Weather fetch error: {e}")
+        if _cache["data"] is not None:
+            logger.info("Returning stale cache")
+            return _cache["data"]
+        raise
