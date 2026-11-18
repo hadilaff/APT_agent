@@ -24,7 +24,7 @@ export async function GET() {
     `https://api.open-meteo.com/v1/forecast?${params}`,
     {
       headers: { "User-Agent": "APT-Agent/1.0 (rowing assistant Lac de Tunis)" },
-      next: { revalidate: 600 }, // cache 10 minutes on Vercel edge
+      cache: "no-store", // always fetch fresh, no Vercel edge caching
     }
   );
 
@@ -39,7 +39,7 @@ export async function GET() {
   return new Response(JSON.stringify(data), {
     headers: {
       "Content-Type": "application/json",
-      "Cache-Control": "public, s-maxage=600",
+      "Cache-Control": "no-store",
     },
   });
 }
