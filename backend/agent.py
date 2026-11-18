@@ -303,7 +303,8 @@ User question:
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
 Then end with a clear YES or NO verdict in one short paragraph. Be direct and honest.
-Never mention threshold numbers (like 25 km/h, 35 km/h) as reference points — just describe the actual values and your judgment.
+Never mention threshold numbers as reference points — just describe the actual values and your judgment.
+When responding in French, always use "Rafales" for wind gusts, never "Ailes de vent".
 """
 
     response = client.chat.completions.create(
