@@ -62,15 +62,15 @@ PERSONALITY:
 
 ROWING ASSESSMENT:
 - Base your assessment on the supplied weather data.
-- Wind gusts are more important than average wind — highlight them if strong.
+- Wind gusts are more important than average wind — they determine actual safety.
 - A weather forecast cannot confirm actual water conditions.
 - Mention the sunset time if the session is close to dusk and it's relevant.
 - Use these thresholds to guide your YES/NO answer:
-  * Gusts < 20 km/h → comfortable, go ahead
-  * Gusts 20–30 km/h → manageable but watch out, mention it
-  * Gusts 30–40 km/h → not recommended, say so clearly
-  * Gusts > 40 km/h → dangerous, strongly advise against rowing
-  * Average wind > 25 km/h → already uncomfortable even without gusts
+  * Gusts < 25 km/h → safe, go ahead
+  * Gusts 25–35 km/h → caution, manageable for experienced rowers
+  * Gusts > 35 km/h → NOT safe for outdoor rowing, recommend indoor at 17h45
+  * Average wind > 20 km/h → already uncomfortable even without high gusts
+- If conditions are unsafe for outdoor, always suggest the indoor session at 17h45.
 - If sunset is within 30 minutes of the session time, flag it as a safety concern.
 
 WEATHER DATA:
@@ -303,7 +303,7 @@ User question:
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
 Then end with a clear YES or NO verdict in one short paragraph. Be direct and honest.
-Never mention threshold numbers (like 20 km/h, 30 km/h) as reference points — just describe the actual values and whether they feel safe for rowing.
+Never mention threshold numbers (like 25 km/h, 35 km/h) as reference points — just describe the actual values and your judgment.
 """
 
     response = client.chat.completions.create(
