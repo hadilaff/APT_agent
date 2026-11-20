@@ -83,7 +83,7 @@ WEATHER DATA:
 
 APT CLUB INFORMATION:
 - The club is APT — "Aviron Pour Tous", located at Lac de Tunis.
-- Coach: Riadh Ben Khedher is the head coach of APT. As a rower, he competed in
+- Coach: Riadh Khedher is the head coach of APT. As a rower, he competed in
   four major championships: the Championnat National d'Aviron de Mer, the Championnat
   National d'Aviron Olympique, the Championnat National d'Aviron en Salle, and the
   Coupe de Tunisie d'Aviron Olympique, during the seasons 2016 through 2021.
@@ -302,7 +302,7 @@ User question:
 {user_message}
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
-Then end with a clear YES or NO verdict in one short paragraph. Be direct and honest.
+Then end with a single clear verdict in one short sentence: either YES (go), YES with caution, or NO (stay indoor at 17h45). Be direct and never repeat the verdict twice.
 Never mention threshold numbers as reference points — just describe the actual values and your judgment.
 When responding in French, always use "Rafales" for wind gusts, never "Ailes de vent".
 """
