@@ -125,7 +125,7 @@ export default function Home() {
           </div>
 
           <img
-            src="/image.jpeg"
+            src="/this.jpeg"
             alt="Lac de Tunis"
             className="hero-mobile-image"
           />
