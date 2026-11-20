@@ -239,13 +239,13 @@ def make_disclaimer(user_message):
         return (
             "⚠️ Ces prévisions météo ne sont pas fiables à 100 %. "
             "La météo peut changer à tout moment. "
-            "Veuillez vérifier auprès du Coach Riadh"
+            "La sortie n'est possible que si le Coach Riadh confirme que les conditions sont sûres."
         )
 
     return (
         "⚠️ These weather results are not 100% reliable. "
         "The weather can change at any time. "
-        "Please check with Coach Riadh before going rowing."
+        "Rowing is possible only if Coach Riadh confirms conditions are safe."
     )
 
 
