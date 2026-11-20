@@ -8,11 +8,11 @@ const API_URL =
 
 const suggestions = [
   {
-    label: "Can I row at 17:00 today?",
+    label: "Can I row at 16:30 today?",
     language: "en",
   },
   {
-    label: "Est-ce que je peux ramer à 17h ?",
+    label: "Est-ce que je peux ramer à 16h30 ?",
     language: "fr",
   },
   {

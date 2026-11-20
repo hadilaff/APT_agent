@@ -12,7 +12,8 @@ from groq import Groq
 
 from weather import get_weather
 
-DEFAULT_TRAINING_HOUR = 17
+DEFAULT_TRAINING_HOUR = 16
+DEFAULT_TRAINING_MINUTE = 30
 TIMEZONE = ZoneInfo("Africa/Tunis")
 
 load_dotenv()
@@ -68,9 +69,9 @@ ROWING ASSESSMENT:
 - Use these thresholds to guide your YES/NO answer:
   * Gusts < 25 km/h → safe, go ahead
   * Gusts 25–35 km/h → caution, manageable for experienced rowers
-  * Gusts > 35 km/h → NOT safe for outdoor rowing, recommend indoor at 17h45
+  * Gusts > 35 km/h → NOT safe for outdoor rowing, recommend indoor at 17h30
   * Average wind > 20 km/h → already uncomfortable even without high gusts
-- If conditions are unsafe for outdoor, always suggest the indoor session at 17h45.
+- If conditions are unsafe for outdoor, always suggest the indoor session at 17h30.
 - If sunset is within 30 minutes of the session time, flag it as a safety concern.
 
 WEATHER DATA:
@@ -88,8 +89,8 @@ APT CLUB INFORMATION:
   National d'Aviron Olympique, the Championnat National d'Aviron en Salle, and the
   Coupe de Tunisie d'Aviron Olympique, during the seasons 2016 through 2021.
 - Training schedule:
-  * Outdoor (on the lake): 17h00
-  * Indoor (salle): 17h45
+  * Outdoor (on the lake): 16h30
+  * Indoor (salle): 17h30
 - IMPORTANT: Never suggest postponing or cancelling a session. If outdoor conditions
   are bad due to wind, always recommend switching to the indoor session instead.
 - When asked about the coach, training schedule, or club info, answer
@@ -279,7 +280,7 @@ async def ask_agent(user_message: str, weather_data: dict | None) -> str:
         now = datetime.now(TIMEZONE)
         target = now.replace(
             hour=DEFAULT_TRAINING_HOUR,
-            minute=0,
+            minute=DEFAULT_TRAINING_MINUTE,
             second=0,
             microsecond=0,
         )
@@ -302,7 +303,7 @@ User question:
 {user_message}
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
-Then end with a single clear verdict in one or two sentences: either YES (go), YES with caution (explain who should be careful — beginners vs experienced rowers), or NO (stay indoor at 17h45). Be direct and never repeat the verdict twice.
+Then end with a single clear verdict in one or two sentences: either YES (go), YES with caution (explain who should be careful — beginners vs experienced rowers), or NO (stay indoor at 17h30). Be direct and never repeat the verdict twice.
 Always respond entirely in the same language as the user — if the question is in French, the verdict must also be in French (never write "YES with caution" in an otherwise French response).
 Never mention threshold numbers as reference points — just describe the actual values and your judgment.
 When responding in French, always use "Rafales" for wind gusts, never "Ailes de vent".
