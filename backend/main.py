@@ -1,6 +1,8 @@
 import os
+from collections import defaultdict
+from datetime import datetime, timezone
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -17,6 +19,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# --- Simple in-memory stats (resets on redeploy) ---
+_stats = {
+    "total_questions": 0,
+    "questions_by_day": defaultdict(int),
+    "question_types": defaultdict(int),  # weather / club / other
+}
+
+
+def record_request(message: str, kind: str):
+    _stats["total_questions"] += 1
+    day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    _stats["questions_by_day"][day] += 1
+    _stats["question_types"][kind] += 1
 
 
 class ChatRequest(BaseModel):
@@ -79,12 +95,24 @@ def needs_weather(message: str) -> bool:
     return any(keyword in text for keyword in WEATHER_KEYWORDS)
 
 
+@app.get("/stats")
+async def stats():
+    return {
+        "total_questions": _stats["total_questions"],
+        "questions_by_day": dict(sorted(_stats["questions_by_day"].items())),
+        "question_types": dict(_stats["question_types"]),
+    }
+
+
 @app.post("/chat")
 async def chat(request: ChatRequest):
     if not needs_weather(request.message):
+        kind = "club" if any(k in request.message.lower() for k in CLUB_KEYWORDS) else "other"
+        record_request(request.message, kind)
         answer = await ask_agent(request.message, weather_data=None)
         return {"answer": answer}
 
+    record_request(request.message, "weather")
     try:
         weather = await get_weather()
     except Exception:

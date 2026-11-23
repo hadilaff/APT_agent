@@ -57,6 +57,7 @@ export default function Home() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ message }),
+        signal: AbortSignal.timeout(90000), // wait up to 90s for cold start
       });
 
       if (!response.ok) {
@@ -79,9 +80,15 @@ export default function Home() {
     } catch (err) {
       console.error("APT Agent error:", err);
 
-      setError(
-        "Unable to reach APT Agent. Please check that the backend is running and the API URL is correct."
-      );
+      if (err.message?.includes("fetch") || err.name === "TypeError") {
+        setError(
+          "The server is waking up, this can take up to 60 seconds on first use. Please try again in a moment. ☕"
+        );
+      } else {
+        setError(
+          "Unable to reach APT Agent. Please check that the backend is running and the API URL is correct."
+        );
+      }
     } finally {
       setLoading(false);
     }
