@@ -303,7 +303,8 @@ User question:
 {user_message}
 
 Use bullet points to present the weather details (temperature, wind speed, gusts, direction, rain).
-Then end with a single clear verdict in one or two sentences: either YES (go), YES with caution (explain who should be careful — beginners vs experienced rowers), or NO (stay indoor at 17h30). Be direct and never repeat the verdict twice.
+Then end with a single clear verdict in one or two sentences: either YES (go), YES with caution, or NO (stay indoor at 17h30). Be direct and never repeat the verdict twice.
+When conditions are borderline, describe concretely what the wind/gusts will feel like on the water, and suggest the indoor session at 17h30 if outdoor is risky. Never generalize between beginners and experienced rowers.
 Always respond entirely in the same language as the user — if the question is in French, the verdict must also be in French (never write "YES with caution" in an otherwise French response).
 Never mention threshold numbers as reference points — just describe the actual values and your judgment.
 When responding in French, always use "Rafales" for wind gusts, never "Ailes de vent".
